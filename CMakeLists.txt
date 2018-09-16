@@ -3,10 +3,14 @@ cmake_minimum_required(VERSION 2.8.9)
 project (dukluv)
 
 include(duktape.cmake)
-IF (APPLE)
-include(uv_osx.cmake)
+IF (CROSS)
+
+include(uv_${CROSS}.cmake)
+
 ELSE ()
+
 include(uv.cmake)
+
 ENDIF ()
 
 add_library(duv
