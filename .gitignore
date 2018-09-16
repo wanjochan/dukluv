@@ -3,3 +3,4 @@ build.osx
 build.lnx.dck
 build.dck
 build_wjc
+build_cross_win
