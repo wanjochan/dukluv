@@ -4,5 +4,6 @@ mkdir build_osx
 cd build_osx
 cmake ..
 make
-#upx dukluv
+upx dukluv
+./dukluv ../unit-tests.js
 
