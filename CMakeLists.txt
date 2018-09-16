@@ -28,6 +28,7 @@ add_library(duv
 
 add_library(dschema
   src/schema.c
+  src/duk_v1_compat.c
 )
 
 add_executable(dukluv src/main.c)
