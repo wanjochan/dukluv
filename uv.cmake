@@ -118,6 +118,7 @@ else()
     ${LIBUVDIR}/src/unix/stream.c
     ${LIBUVDIR}/src/unix/tcp.c
     ${LIBUVDIR}/src/unix/thread.c
+		${LIBUVDIR}/src/unix/pthread-barrier.c
     ${LIBUVDIR}/src/unix/timer.c
     ${LIBUVDIR}/src/unix/tty.c
     ${LIBUVDIR}/src/unix/udp.c
