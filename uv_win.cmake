@@ -29,17 +29,21 @@ cmake_minimum_required(VERSION 2.8.9)
 
 set(LIBUVDIR ${CMAKE_CURRENT_LIST_DIR}/lib/uv)
 
+#winapi tcc
+set(LIBWINAPIDIR ${CMAKE_CURRENT_LIST_DIR}/lib/winapi-full-for-0.9.27)
+
 include_directories(
   ${LIBUVDIR}/src
   ${LIBUVDIR}/include
+	${LIBWINAPIDIR}/include/winapi
 )
 
 set(SOURCES
   ${LIBUVDIR}/include/uv.h
-  ${LIBUVDIR}/include/tree.h
-  ${LIBUVDIR}/include/uv-errno.h
-  ${LIBUVDIR}/include/uv-threadpool.h
-  ${LIBUVDIR}/include/uv-version.h
+  ${LIBUVDIR}/include/uv/tree.h
+  ${LIBUVDIR}/include/uv/errno.h
+  ${LIBUVDIR}/include/uv/threadpool.h
+  ${LIBUVDIR}/include/uv/version.h
   ${LIBUVDIR}/src/fs-poll.c
   ${LIBUVDIR}/src/heap-inl.h
   ${LIBUVDIR}/src/inet.c
@@ -51,13 +55,17 @@ set(SOURCES
 )
 
 if(WIN32)
+
+	#wjc.patch:
+	#include_directories(${CMAKE_CURRENT_LIST_DIR}/winapi-full-for-0.9.27/include/winapi/)
+
   add_definitions(
     -D_WIN32_WINNT=0x0600
     -D_CRT_SECURE_NO_WARNINGS
     -D_GNU_SOURCE
   )
   set(SOURCES ${SOURCES}
-    ${LIBUVDIR}/include/uv-win.h
+    ${LIBUVDIR}/include/uv/win.h
     ${LIBUVDIR}/src/win/async.c
     ${LIBUVDIR}/src/win/atomicops-inl.h
     ${LIBUVDIR}/src/win/core.c
@@ -83,9 +91,11 @@ if(WIN32)
     ${LIBUVDIR}/src/win/stream-inl.h
     ${LIBUVDIR}/src/win/tcp.c
     ${LIBUVDIR}/src/win/tty.c
-    ${LIBUVDIR}/src/win/timer.c
+    ${LIBUVDIR}/src/timer.c
     ${LIBUVDIR}/src/win/udp.c
     ${LIBUVDIR}/src/win/util.c
+		#${CMAKE_CURRENT_LIST_DIR}/winapi-full-for-0.9.27/include/winapi/winsock2x.h
+		#${LIBWINAPIDIR}/winapi/winsock2.h
     ${LIBUVDIR}/src/win/winapi.c
     ${LIBUVDIR}/src/win/winapi.h
     ${LIBUVDIR}/src/win/winsock.c
@@ -94,12 +104,12 @@ if(WIN32)
 else()
   include_directories(${LIBUVDIR}/src/unix)
   set(SOURCES ${SOURCES}
-    ${LIBUVDIR}/include/uv-unix.h
-    ${LIBUVDIR}/include/uv-linux.h
-    ${LIBUVDIR}/include/uv-sunos.h
-    ${LIBUVDIR}/include/uv-darwin.h
-    ${LIBUVDIR}/include/uv-bsd.h
-    ${LIBUVDIR}/include/uv-aix.h
+    ${LIBUVDIR}/include/uv/unix.h
+    ${LIBUVDIR}/include/uv/linux.h
+    ${LIBUVDIR}/include/uv/sunos.h
+    ${LIBUVDIR}/include/uv/darwin.h
+    ${LIBUVDIR}/include/uv/bsd.h
+    ${LIBUVDIR}/include/uv/aix.h
     ${LIBUVDIR}/src/unix/async.c
     ${LIBUVDIR}/src/unix/atomic-ops.h
     ${LIBUVDIR}/src/unix/core.c
@@ -120,7 +130,7 @@ else()
     ${LIBUVDIR}/src/unix/thread.c
 		# for OSX tmp...
 		#		${LIBUVDIR}/src/unix/pthread-barrier.c
-    ${LIBUVDIR}/src/unix/timer.c
+    ${LIBUVDIR}/src/timer.c
     ${LIBUVDIR}/src/unix/tty.c
     ${LIBUVDIR}/src/unix/udp.c
   )
@@ -140,6 +150,17 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
 endif()
 
 ## Linux
+#if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+#  list(APPEND uv_defines _GNU_SOURCE _POSIX_C_SOURCE=200112)
+#  list(APPEND uv_libraries dl rt)
+#  list(APPEND uv_sources
+#       src/unix/linux-core.c
+#       src/unix/linux-inotify.c
+#       src/unix/linux-syscalls.c
+#       src/unix/procfs-exepath.c
+#       src/unix/sysinfo-loadavg.c
+#       src/unix/sysinfo-memory.c)
+#endif()
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
   add_definitions(
     -D_GNU_SOURCE
@@ -150,6 +171,9 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     ${LIBUVDIR}/src/unix/linux-inotify.c
     ${LIBUVDIR}/src/unix/linux-syscalls.c
     ${LIBUVDIR}/src/unix/linux-syscalls.h
+    ${LIBUVDIR}/src/unix/sysinfo-loadavg.c
+    ${LIBUVDIR}/src/unix/procfs-exepath.c
+    ${LIBUVDIR}/src/unix/sysinfo-memory.c
   )
 endif()
 
