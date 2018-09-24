@@ -10,6 +10,7 @@ ls -al
 export CC=tcc
 cmake -D CROSS=lnx ..
 make
+upx dukluv
 make install
 ' | dkrun
 
