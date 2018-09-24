@@ -5,3 +5,4 @@ build.dck
 build_wjc
 build_cross_win
 build_osx
+build_docker
