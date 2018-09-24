@@ -28,30 +28,37 @@ include(CheckTypeSize)
 cmake_minimum_required(VERSION 2.8.9)
 
 set(LIBUVDIR ${CMAKE_CURRENT_LIST_DIR}/lib/uv)
+set(LIBUVDLLDIR ${CMAKE_CURRENT_LIST_DIR}/lib/libuv_w32)
 
 #winapi tcc
 set(LIBWINAPIDIR ${CMAKE_CURRENT_LIST_DIR}/lib/winapi-full-for-0.9.27)
 
 include_directories(
   ${LIBUVDIR}/src
-  ${LIBUVDIR}/include
+	#${LIBUVDIR}/include
+	${LIBUVDLLDIR}/include
 	${LIBWINAPIDIR}/include/winapi
 )
 
 set(SOURCES
-  ${LIBUVDIR}/include/uv.h
-  ${LIBUVDIR}/include/uv/tree.h
-  ${LIBUVDIR}/include/uv/errno.h
-  ${LIBUVDIR}/include/uv/threadpool.h
-  ${LIBUVDIR}/include/uv/version.h
-  ${LIBUVDIR}/src/fs-poll.c
-  ${LIBUVDIR}/src/heap-inl.h
-  ${LIBUVDIR}/src/inet.c
-  ${LIBUVDIR}/src/queue.h
-  ${LIBUVDIR}/src/threadpool.c
-  ${LIBUVDIR}/src/uv-common.c
-  ${LIBUVDIR}/src/uv-common.h
-  ${LIBUVDIR}/src/version.c
+	#${LIBUVDIR}/include/uv.h
+  ${LIBUVDLLDIR}/include/uv.h
+	#${LIBUVDIR}/include/uv/tree.h
+  ${LIBUVDLLDIR}/include/tree.h
+	#${LIBUVDIR}/include/uv/errno.h
+  ${LIBUVDLLDIR}/include/uv-errno.h
+	#${LIBUVDIR}/include/uv/threadpool.h
+  ${LIBUVDLLDIR}/include/uv-threadpool.h
+	#${LIBUVDIR}/include/uv/version.h
+  ${LIBUVDLLDIR}/include/uv-version.h
+	#${LIBUVDIR}/src/fs-poll.c
+  #${LIBUVDIR}/src/heap-inl.h
+  #${LIBUVDIR}/src/inet.c
+  #${LIBUVDIR}/src/queue.h
+  #${LIBUVDIR}/src/threadpool.c
+  #${LIBUVDIR}/src/uv-common.c
+  #${LIBUVDIR}/src/uv-common.h
+  #${LIBUVDIR}/src/version.c
 )
 
 if(WIN32)
@@ -65,41 +72,42 @@ if(WIN32)
     -D_GNU_SOURCE
   )
   set(SOURCES ${SOURCES}
-    ${LIBUVDIR}/include/uv/win.h
-    ${LIBUVDIR}/src/win/async.c
-    ${LIBUVDIR}/src/win/atomicops-inl.h
-    ${LIBUVDIR}/src/win/core.c
-    ${LIBUVDIR}/src/win/dl.c
-    ${LIBUVDIR}/src/win/error.c
-    ${LIBUVDIR}/src/win/fs.c
-    ${LIBUVDIR}/src/win/fs-event.c
-    ${LIBUVDIR}/src/win/getaddrinfo.c
-    ${LIBUVDIR}/src/win/getnameinfo.c
-    ${LIBUVDIR}/src/win/handle.c
-    ${LIBUVDIR}/src/win/handle-inl.h
-    ${LIBUVDIR}/src/win/internal.h
-    ${LIBUVDIR}/src/win/loop-watcher.c
-    ${LIBUVDIR}/src/win/pipe.c
-    ${LIBUVDIR}/src/win/thread.c
-    ${LIBUVDIR}/src/win/poll.c
-    ${LIBUVDIR}/src/win/process.c
-    ${LIBUVDIR}/src/win/process-stdio.c
-    ${LIBUVDIR}/src/win/req.c
-    ${LIBUVDIR}/src/win/req-inl.h
-    ${LIBUVDIR}/src/win/signal.c
-    ${LIBUVDIR}/src/win/stream.c
-    ${LIBUVDIR}/src/win/stream-inl.h
-    ${LIBUVDIR}/src/win/tcp.c
-    ${LIBUVDIR}/src/win/tty.c
-    ${LIBUVDIR}/src/timer.c
-    ${LIBUVDIR}/src/win/udp.c
-    ${LIBUVDIR}/src/win/util.c
-		#${CMAKE_CURRENT_LIST_DIR}/winapi-full-for-0.9.27/include/winapi/winsock2x.h
-		#${LIBWINAPIDIR}/winapi/winsock2.h
-    ${LIBUVDIR}/src/win/winapi.c
-    ${LIBUVDIR}/src/win/winapi.h
-    ${LIBUVDIR}/src/win/winsock.c
-    ${LIBUVDIR}/src/win/winsock.h
+		${LIBUVDLLDIR}/include/uv-win.h
+		#${LIBUVDIR}/include/uv/win.h
+    #${LIBUVDIR}/src/win/async.c
+    #${LIBUVDIR}/src/win/atomicops-inl.h
+    #${LIBUVDIR}/src/win/core.c
+    #${LIBUVDIR}/src/win/dl.c
+    #${LIBUVDIR}/src/win/error.c
+    #${LIBUVDIR}/src/win/fs.c
+    #${LIBUVDIR}/src/win/fs-event.c
+    #${LIBUVDIR}/src/win/getaddrinfo.c
+    #${LIBUVDIR}/src/win/getnameinfo.c
+    #${LIBUVDIR}/src/win/handle.c
+    #${LIBUVDIR}/src/win/handle-inl.h
+    #${LIBUVDIR}/src/win/internal.h
+    #${LIBUVDIR}/src/win/loop-watcher.c
+    #${LIBUVDIR}/src/win/pipe.c
+    #${LIBUVDIR}/src/win/thread.c
+    #${LIBUVDIR}/src/win/poll.c
+    #${LIBUVDIR}/src/win/process.c
+    #${LIBUVDIR}/src/win/process-stdio.c
+    #${LIBUVDIR}/src/win/req.c
+    #${LIBUVDIR}/src/win/req-inl.h
+    #${LIBUVDIR}/src/win/signal.c
+    #${LIBUVDIR}/src/win/stream.c
+    #${LIBUVDIR}/src/win/stream-inl.h
+    #${LIBUVDIR}/src/win/tcp.c
+    #${LIBUVDIR}/src/win/tty.c
+    #${LIBUVDIR}/src/timer.c
+    #${LIBUVDIR}/src/win/udp.c
+    #${LIBUVDIR}/src/win/util.c
+		##${CMAKE_CURRENT_LIST_DIR}/winapi-full-for-0.9.27/include/winapi/winsock2x.h
+		##${LIBWINAPIDIR}/winapi/winsock2.h
+    #${LIBUVDIR}/src/win/winapi.c
+    #${LIBUVDIR}/src/win/winapi.h
+    #${LIBUVDIR}/src/win/winsock.c
+    #${LIBUVDIR}/src/win/winsock.h
   )
 else()
   include_directories(${LIBUVDIR}/src/unix)
@@ -191,7 +199,11 @@ if(APPLE)
   )
 endif()
 
+if(WIN32)
+#add_library(uv DLL ${SOURCES})#wjc TODO!!!
+else()
 add_library(uv STATIC ${SOURCES})
+endif()
 
 if("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
   target_link_libraries(uv
@@ -201,20 +213,24 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
 endif()
 
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+if(WIN32)
+else()
   target_link_libraries(uv
     pthread
   )
 endif()
+endif()
 
 if(WIN32)
-  target_link_libraries(uv
-    ws2_32.lib
-    shell32.lib
-    psapi.lib
-    iphlpapi.lib
-    advapi32.lib
-    userenv.lib
-  )
+	#target_link_libraries(
+		#uv
+		#ws2_32.lib
+		#shell32.lib
+    #psapi.lib
+    #iphlpapi.lib
+    #advapi32.lib
+    #userenv.lib
+		#)
 endif()
 
 if(APPLE)
